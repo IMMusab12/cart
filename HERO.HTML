@@ -1,0 +1,89 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Create the main app container
+            const app = document.getElementById('app');
+        
+            // Header
+            const header = document.createElement('header');
+            header.innerHTML = '<h1>Shopping Cart</h1>';
+            app.appendChild(header);
+        
+            // Product list container
+            const productList = document.createElement('div');
+            productList.className = 'product-list';
+            app.appendChild(productList);
+        
+            // Sample products
+            const products = [
+                { name: 'Ferrari', price: 10, img: 'https://via.placeholder.com/300' },
+                { name: 'Lambo', price: 20, img: 'https://via.placeholder.com/300' },
+                { name: 'Tesla', price: 30, img: 'https://via.placeholder.com/300' },
+                { name: 'Mercedies', price: 30, img: 'https://via.placeholder.com/300' },
+            ];
+        
+            // Create product cards
+            products.forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.className = 'product';
+        
+                productDiv.innerHTML = `
+                    <img src="${product.img}" alt="${product.name}">
+                    <h2>${product.name}</h2>
+                    <p>$${product.price.toFixed(2)}</p>
+                `;
+        
+                const button = document.createElement('button');
+                button.textContent = 'Add to Cart';
+                button.dataset.name = product.name;
+                button.dataset.price = product.price;
+        
+                // Add event listener for adding to cart
+                button.addEventListener('click', () => {
+                    addToCart(product.name, product.price);
+                });
+        
+                productDiv.appendChild(button);
+                productList.appendChild(productDiv);
+            });
+        
+            // Cart container
+            const cart = document.createElement('div');
+            cart.className = 'cart';
+            cart.innerHTML = `
+                <h2>Cart</h2>
+                <ul id="cart-items"></ul>
+                <div class="cart-total">
+                    <p>Total: $<span id="cart-total">0.00</span></p>
+                </div>
+            `;
+            app.appendChild(cart);
+        
+            // Cart functionality
+            const cartItems = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            let total = 0;
+        
+            function addToCart(name, price) {
+                // Add item to the cart
+                const listItem = document.createElement('li');
+                listItem.textContent = `${name} - $${price.toFixed(2)}`;
+                cartItems.appendChild(listItem);
+        
+                // Update total
+                total += price;
+                cartTotal.textContent = total.toFixed(2);
+            }
+        });
+        
+    </script>
+</body>
+</html>
